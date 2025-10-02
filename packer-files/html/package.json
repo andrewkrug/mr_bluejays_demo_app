@@ -1,0 +1,28 @@
+{
+  "name": "mr-bluejays-vulnerable-demo",
+  "version": "1.0.0",
+  "description": "Vulnerable shoe store application for security demonstrations - Contains intentional SSRF vulnerabilities",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "security",
+    "demo",
+    "ssrf",
+    "vulnerable",
+    "education"
+  ],
+  "author": "Security Demo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.4.0",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "warning": "This application contains intentional security vulnerabilities for educational purposes. DO NOT use in production!"
+}

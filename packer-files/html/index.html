@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Bluejays - Original Boots & Shoes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>MR. BLUEJAYS</h1>
+                <span class="tagline">ORIGINAL SINCE 1960</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" data-page="home" class="nav-link active">HOME</a></li>
+                <li><a href="#" data-page="products" class="nav-link">BOOTS</a></li>
+                <li><a href="#" data-page="about" class="nav-link">ABOUT</a></li>
+                <li class="cart-container">
+                    <a href="#" data-page="cart" class="nav-link cart-link">
+                        CART (<span id="cart-count">0</span>)
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main id="app">
+        <!-- Home Page -->
+        <section id="home-page" class="page active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">TOUGH AS YOU</h1>
+                    <p class="hero-subtitle">Original boots built to last. Handcrafted quality since 1960.</p>
+                    <button class="cta-button" onclick="showPage('products')">SHOP BOOTS</button>
+                </div>
+                <div class="hero-image">
+                    <div class="boot-silhouette"></div>
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <h3>DURABLE</h3>
+                    <p>Built to withstand anything</p>
+                </div>
+                <div class="feature">
+                    <h3>COMFORTABLE</h3>
+                    <p>All-day comfort guaranteed</p>
+                </div>
+                <div class="feature">
+                    <h3>TIMELESS</h3>
+                    <p>Classic style that never ages</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Page -->
+        <section id="products-page" class="page">
+            <div class="container">
+                <h2 class="page-title">OUR BOOTS</h2>
+                <div class="product-grid" id="product-grid">
+                    <!-- Products will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about-page" class="page">
+            <div class="container">
+                <h2 class="page-title">ABOUT MR. BLUEJAYS</h2>
+                <div class="about-content">
+                    <p>Since 1960, Mr. Bluejays has been crafting original boots and shoes with uncompromising quality and timeless style. Our commitment to durability and comfort has made us a trusted choice for those who demand the best.</p>
+                    <p>Every pair is built to last, using premium materials and time-tested construction methods. From the factory floor to the street, Mr. Bluejays boots are made for those who work hard and live boldly.</p>
+
+                    <!-- Development breadcrumbs for learners -->
+                    <div style="margin-top: 40px; padding: 20px; background: #1a1a1a; border: 1px solid #333; font-family: monospace; font-size: 12px; color: #888;">
+                        <h4 style="color: #ffff00; margin-bottom: 10px;">Development Info (Remove in Production)</h4>
+                        <p>• Frontend: Static files served on port 80</p>
+                        <p>• Backend API: Node.js service on port 3000</p>
+                        <p>• Try: <a href="http://localhost:3000/health" style="color: #00ff00;">http://localhost:3000/health</a></p>
+                        <p>• API Base: <span style="color: #00ff00;">http://localhost:3000/api/</span></p>
+                        <p>• Available endpoints: /products, /product-image, /preview-url, /import-product</p>
+                        <p style="color: #ff8800;">⚠️ Some endpoints may have security vulnerabilities for testing purposes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Page -->
+        <section id="cart-page" class="page">
+            <div class="container">
+                <h2 class="page-title">YOUR CART</h2>
+                <div id="cart-items" class="cart-items">
+                    <!-- Cart items will be inserted here -->
+                </div>
+                <div class="cart-total">
+                    <h3>Total: $<span id="cart-total">0.00</span></h3>
+                    <button class="checkout-button">CHECKOUT</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-body" id="modal-body">
+                <!-- Product details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Mr. Bluejays. All rights reserved. | Original boots since 1960</p>
+            <!-- Development Note: Backend API running on port 3000 -->
+            <!-- API endpoints: /api/products, /api/product-image, /api/preview-url, /api/import-product -->
+            <!-- Health check: /health -->
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

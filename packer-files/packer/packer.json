@@ -1,0 +1,68 @@
+{
+  "variables": {
+      "aws_access_key":     "{{env `AWS_ACCESS_KEY_ID`}}",
+      "aws_secret_key":     "{{env `AWS_SECRET_ACCESS_KEY`}}",
+      "aws_security_token": "{{env `AWS_SECURITY_TOKEN`}}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-west-2",
+      "source_ami": "ami-06a974f9b8a97ecf2",
+      "instance_type": "t2.large",
+      "ssh_pty" : "true",
+      "ssh_username": "ec2-user",
+      "ami_name": "bluejays_shoes_{{timestamp}}",
+      "ami_description": "Mr. Bluejays Vulnerable Demo Application - Educational Use Only",
+      "ami_groups": ["all"]
+    }
+  ],
+  "provisioners": [
+   { "type": "shell",
+      "inline": [
+      "sleep 30",
+      "sudo dnf update -y",
+      "sudo dnf install -y python3-pip",
+      "sudo pip3 install boto3 --upgrade",
+      "sudo dnf install -y nginx",
+      "sudo dnf install -y nodejs npm",
+      "sudo systemctl enable nginx",
+      "sudo systemctl start nginx"
+  ]},
+   {
+    "type": "file",
+    "source": "./files/motd",
+    "destination": "/home/ec2-user/motd"
+   },
+   { "type": "shell",
+      "inline": [
+      "sudo mv /home/ec2-user/motd /etc/motd"
+    ]
+   },
+   {
+    "type": "file",
+    "source": "../html",
+    "destination": "/home/ec2-user/html"
+   },
+   { "type": "shell",
+      "inline": [
+      "sudo mkdir -p /opt/bluejays-app",
+      "sudo cp /home/ec2-user/html/server.js /opt/bluejays-app/",
+      "sudo cp /home/ec2-user/html/app.js /opt/bluejays-app/",
+      "sudo cp /home/ec2-user/html/package.json /opt/bluejays-app/",
+      "sudo cp /home/ec2-user/html/index.html /usr/share/nginx/html/",
+      "sudo cp /home/ec2-user/html/style.css /usr/share/nginx/html/",
+      "sudo cp /home/ec2-user/html/shoe.svg /usr/share/nginx/html/",
+      "sudo cp /home/ec2-user/html/app.js /usr/share/nginx/html/",
+      "cd /opt/bluejays-app && sudo npm install",
+      "sudo npm install -g pm2",
+      "sudo pm2 start /opt/bluejays-app/server.js --name bluejays-backend",
+      "sudo pm2 startup systemd -u root --hp /root",
+      "sudo pm2 save",
+      "sudo firewall-cmd --permanent --add-port=3000/tcp 2>/dev/null || true",
+      "sudo firewall-cmd --permanent --add-port=80/tcp 2>/dev/null || true",
+      "sudo firewall-cmd --reload 2>/dev/null || true"
+    ]
+   }
+ ]
+}
