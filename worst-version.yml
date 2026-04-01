@@ -4,7 +4,7 @@ Parameters:
   BlueJaysAMI:
     Type: String
     Description: "AMI ID must be in us-west-2 only."
-    Default: "ami-05676382cb2cd06ac"
+    Default: "ami-0aa2040b7eef648fc"
 Resources:
   AnalyticsBucket:
     Type: 'AWS::S3::Bucket'
