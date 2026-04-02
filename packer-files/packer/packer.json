@@ -8,7 +8,15 @@
     {
       "type": "amazon-ebs",
       "region": "us-west-2",
-      "source_ami": "ami-06a974f9b8a97ecf2",
+      "source_ami_filter": {
+        "filters": {
+          "name": "al2023-ami-2023.*-x86_64",
+          "root-device-type": "ebs",
+          "virtualization-type": "hvm"
+        },
+        "owners": ["amazon"],
+        "most_recent": true
+      },
       "instance_type": "t2.large",
       "ssh_pty" : "true",
       "ssh_username": "ec2-user",
@@ -26,6 +34,8 @@
       "sudo pip3 install boto3 --upgrade",
       "sudo dnf install -y nginx",
       "sudo dnf install -y nodejs npm",
+      "sudo dnf install -y amazon-cloudwatch-agent",
+      "sudo systemctl enable amazon-cloudwatch-agent",
       "sudo systemctl enable nginx",
       "sudo systemctl start nginx"
   ]},
@@ -37,6 +47,18 @@
    { "type": "shell",
       "inline": [
       "sudo mv /home/ec2-user/motd /etc/motd"
+    ]
+   },
+   {
+    "type": "file",
+    "source": "./files/amazon-cloudwatch-agent.json",
+    "destination": "/home/ec2-user/amazon-cloudwatch-agent.json"
+   },
+   { "type": "shell",
+      "inline": [
+      "sudo mkdir -p /opt/aws/amazon-cloudwatch-agent/etc",
+      "sudo mv /home/ec2-user/amazon-cloudwatch-agent.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json",
+      "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json"
     ]
    },
    {

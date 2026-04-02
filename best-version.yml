@@ -4,7 +4,7 @@ Parameters:
   BlueJaysAMI:
     Type: String
     Description: "AMI ID must be in us-west-2 only."
-    Default: "ami-0aa2040b7eef648fc"
+    Default: "ami-0aa87bb13770d5d3d"
 Resources:
   AnalyticsBucket:
     Type: 'AWS::S3::Bucket'
@@ -298,7 +298,15 @@ Resources:
                 "\n",
                 "sudo yum install -y https://s3.us-west-2.amazonaws.com/amazon-ssm-us-west-2/latest/linux_amd64/amazon-ssm-agent.rpm",
                 "\n",
-                "sudo start amazon-ssm-agent",
+                "sudo systemctl enable amazon-ssm-agent",
+                "\n",
+                "sudo systemctl start amazon-ssm-agent",
+                "\n",
+                "# Start CloudWatch agent",
+                "\n",
+                "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json",
+                "\n",
+                "sudo systemctl enable amazon-cloudwatch-agent",
                 "\n",
                 "# Start simple web server on port 3000 for health checks",
                 "\n",
