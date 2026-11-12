@@ -21,8 +21,7 @@
       "ssh_pty" : "true",
       "ssh_username": "ec2-user",
       "ami_name": "bluejays_shoes_{{timestamp}}",
-      "ami_description": "Mr. Bluejays Vulnerable Demo Application - Educational Use Only",
-      "ami_groups": ["all"]
+      "ami_description": "Mr. Bluejays Vulnerable Demo Application - Educational Use Only"
     }
   ],
   "provisioners": [

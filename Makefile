@@ -11,7 +11,7 @@ GREEN = \033[0;32m
 YELLOW = \033[1;33m
 NC = \033[0m # No Color
 
-.PHONY: help create update deploy-worst deploy-best update-to-best delete status validate-templates install-cfn-nag scan-templates
+.PHONY: publish-ami help create update deploy-worst deploy-best update-to-best delete status validate-templates install-cfn-nag scan-templates
 
 # Default target - show help
 help:
@@ -28,6 +28,7 @@ help:
 	@echo "  $(YELLOW)make validate$(NC)         - Validate both CloudFormation templates"
 	@echo "  $(YELLOW)make install-cfn-nag$(NC)  - Install cfn_nag_scan linter (for AWS CloudShell)"
 	@echo "  $(YELLOW)make scan-templates$(NC)   - Run cfn_nag security scan on templates"
+	@echo "  $(YELLOW)make publish-ami AMI_ID=ami-...$(NC) - Make a built AMI public (course maintainers only)"
 	@echo ""
 	@echo "Stack Name: $(STACK_NAME)"
 	@echo "Region: $(REGION)"
@@ -182,3 +183,13 @@ scan-templates:
 	@echo ""
 	@echo "$(YELLOW)Scanning best-version.yml:$(NC)"
 	-@cfn_nag_scan --input-path best-version.yml 2>/dev/null || echo "$(RED)cfn_nag not installed. Run 'make install-cfn-nag' first$(NC)"
+
+# Make a built AMI public. The course platform's workstation account runs this
+# after "packer build"; learners do not, because learner accounts block public AMIs.
+publish-ami:
+	@test -n "$(AMI_ID)" || (echo "$(RED)Usage: make publish-ami AMI_ID=ami-xxxx$(NC)" && exit 1)
+	@aws ec2 modify-image-attribute \
+		--image-id $(AMI_ID) \
+		--launch-permission "Add=[{Group=all}]" \
+		--region $(REGION)
+	@echo "$(GREEN)$(AMI_ID) is now public.$(NC)"
